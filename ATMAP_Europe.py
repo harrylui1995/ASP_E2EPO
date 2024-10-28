@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from datetime import datetime
+from matplotlib import rc
 ###########
 
 # WIND SPEED(KT) TO WEATHER SCORE
@@ -350,6 +351,11 @@ def metar_to_csv(input_file, output_file):
     print(f"CSV file '{output_file}' has been created successfully.")
 
 def visualize_metar_scores(csv_file, output_image):
+    rc('font',**{'family':'serif'})
+    rc('text', usetex=True)
+    # rc('figure', figsize=(11.69,8.27))
+    rc('figure', figsize=(15,10))
+    rc('font',size = 22)
     # Read the CSV file
     df = pd.read_csv(csv_file)
     
@@ -360,14 +366,14 @@ def visualize_metar_scores(csv_file, output_image):
     df = df.sort_values('datetime')
     
     # Create the plot
-    plt.figure(figsize=(15, 10))
+    # plt.figure(figsize=(15, 10))
     
     # Plot each score
     plt.plot(df['datetime'], df['wind_score'], c='#c03d3e', linewidth=0.8)
     plt.plot(df['datetime'], df['vis_ceiling_score'], c='#3a923a', linewidth=0.8)
     plt.plot(df['datetime'], df['precip_score'], c='#3274a1', linewidth=0.8)
     plt.plot(df['datetime'], df['freezing_score'], c='m', linewidth=0.8)
-    plt.scatter(df['datetime'], df['dangerous_phenom_score'], c='k', s=10, marker='+')
+    plt.scatter(df['datetime'], df['dangerous_phenom_score'], c='k', s=15, marker='+')
     
     # Create legend patches
     legend1 = mpatches.Patch(color='#c03d3e', label='Wind')
@@ -377,7 +383,7 @@ def visualize_metar_scores(csv_file, output_image):
     legend5 = mpatches.Patch(color='k', label='Dangerous phenomenon')
     
     # Add legend
-    plt.legend(handles=[legend1, legend3, legend2, legend4, legend5], loc='best', fontsize=12)
+    plt.legend(handles=[legend1, legend3, legend2, legend4, legend5], loc='best')
     
     # Set y-axis limits
     plt.ylim(0, 22)
@@ -386,12 +392,12 @@ def visualize_metar_scores(csv_file, output_image):
     plt.gca().xaxis.set_major_locator(plt.MaxNLocator(10))
     
     # Set labels and title
-    plt.ylabel('Score', fontsize=14)
-    plt.title('METAR Scores Over Time', fontsize=16)
+    plt.ylabel('ATMAP Weather Score')
+    # plt.title('METAR Scores Over Time', fontsize=16)
     
     # Rotate x-axis labels
-    plt.xticks(rotation=20, fontsize=12)
-    plt.yticks(fontsize=12)
+    plt.xticks(rotation=20)
+    # plt.yticks(fontsize=20)
     
     # Add grid
     plt.grid(True)
@@ -400,8 +406,14 @@ def visualize_metar_scores(csv_file, output_image):
     plt.tight_layout()
     
     # Save the plot
-    plt.savefig(output_image, dpi=300, bbox_inches='tight')
+    plt.savefig(output_image, dpi=600)
     print(f"Visualization saved as {output_image}")
     
     # Close the plot to free up memory
     plt.close()
+
+
+if __name__ == "__main__":
+    csv_file = 'data/EGKK_2024_score.csv'
+    output_image = 'output/metar_visualization.pdf'
+    visualize_metar_scores(csv_file, output_image)

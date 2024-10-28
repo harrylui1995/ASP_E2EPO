@@ -54,7 +54,7 @@ def validate_converted_data(df, list_columns):
                 print("Warning: Inconsistent lengths detected!")
                 print("Unique lengths:", sorted(list_lengths.unique()))
 
-df = pd.read_csv('instances/traffic_instances_n15_t0.75_aug_sep.csv')
+df = pd.read_csv('instances/traffic_instances_n15_t0.75_all.csv')
 
 # Convert columns containing lists from string to actual lists
 list_columns = ['costs', 'wtc', 'original_feats', 'T_mean', 'T', 'callsigns', 'transit_times', 'relative_transit_times', 'cost_transit_time_diff', 'feats','transit_time_difference']
@@ -196,7 +196,23 @@ costs = np.array(df['transit_times'].tolist())
 print(f"\nFinal costs array shape: {costs.shape}")
 print(f"\nFinal feats array shape: {feats.shape}")
 min_time_window_row = df.loc[df['time_window_hours'].idxmin()]
-max_time_window_row = df.loc[df['time_window_hours'].idxmax()]
+# median_time_window_row = df.loc[df['time_window_hours'].median()]
+
+# Find the row with the maximum values for the specified columns
+max_wind_row = df.loc[df['wind_score'].idxmax()]
+max_vis_row = df.loc[df['vis_ceiling_score'].idxmax()]
+max_prec_row = df.loc[df['precip_score'].idxmax()]
+max_danger_row = df.loc[df['dangerous_phenom_score'].idxmax()]
+
+# Print the rows
+print("Row with max wind_score:")
+print(max_wind_row.wind_score)
+
+print("\nRow with max vis_ceiling_score:")
+print(max_vis_row.vis_ceiling_score)
+
+print("\nRow with max dangerous_phenom_score:")
+print(max_danger_row.dangerous_phenom_score)
 
 
 test_set_up = min_time_window_row
