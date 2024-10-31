@@ -214,7 +214,7 @@ print(max_vis_row.vis_ceiling_score)
 print("\nRow with max dangerous_phenom_score:")
 print(max_danger_row.dangerous_phenom_score)
 
-
+#Select the typical scenarios here
 test_set_up = min_time_window_row
 #number of aircraft, must be the same number as the costs
 n_aircraft = len(df['transit_times'][0])
