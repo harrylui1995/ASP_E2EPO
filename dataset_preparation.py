@@ -36,7 +36,7 @@ def process_parquet_files(directory, airport_lat, airport_lon):
             )
             
             # Find the index where the flight enters 80NM
-            entry_index = group[(group['distance_to_airport'] <= 80)&(group['distance_to_airport'] >= 78)].index.min()
+            entry_index = group[(group['distance_to_airport'] <= 50)&(group['distance_to_airport'] >= 48)].index.min()
             
             if pd.isna(entry_index):
                 skipped_count += 1
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     result_df = process_parquet_files(parquet_directory, airport_lat, airport_lon)
 
     # Save the result
-    output_file = 'data/flight_dataset_aug_sep.csv'
+    output_file = 'data/flight_dataset_all_50.csv'
     logging.info(f"Saving results to {output_file}")
     result_df.to_csv(output_file, index=False)
     logging.info("Processing completed")

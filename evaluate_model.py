@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
 from traffic_scenario import SimpleRegression, MLP, x_test, c_test, optmodel
-
+#Assuming the optmodel the same (Mintime) for all the test sets
 def evaluate_trained_model(model_path, x_test, c_test, optmodel, model_type='mlp'):
     """
     Load trained model and evaluate its predictions, comparing with true costs and FCFS
